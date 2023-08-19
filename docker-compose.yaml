@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gustavosilvani/php
+    container_name: php
+    networks:
+      - phpnet
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www
+
+  mysql:
+    image: mysql
+    container_name: mysql-php
+    networks:
+      - phpnet
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456a
+
+networks:
+  phpnet:
+    driver: bridge
