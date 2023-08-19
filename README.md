@@ -7,4 +7,4 @@ md
 
 ## Licença
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
+Este projeto está licenciado sob a [Licença MIT](https://opensource.org/licenses/MIT).
