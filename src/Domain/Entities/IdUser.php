@@ -1,25 +1,24 @@
 <?php
 
 namespace src\Domain\Entities;
-
 use src\Domain\BaseEntity;
 
-class Street extends BaseEntity
+class IdUser extends BaseEntity
 {
-    private $number;
     private $name;
+    private $value;
 
-    public function __construct($number, $name)
+    public function __construct($name, $value)
     {
-        $this->number = $number;
         $this->name = $name;
+        $this->value = $value;
     }
 
     public function toJson()
     {
         $data = [
-            'number' => $this->number,
             'name' => $this->name,
+            'value' => $this->value,
         ];
 
         return json_encode($data);

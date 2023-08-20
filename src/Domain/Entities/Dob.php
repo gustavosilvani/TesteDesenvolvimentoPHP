@@ -1,14 +1,25 @@
 <?php
 
 namespace src\Domain\Entities;
-class Dob
+use src\Domain\BaseEntity;
+
+class Dob extends BaseEntity
 {
-    public $date;
-    public $age;
+    private $date;
+    private $age;
 
     public function __construct($date, $age)
     {
         $this->date = $date;
         $this->age = $age;
+    }
+    public function toJson()
+    {
+        $data = [
+            'date' => $this->date,
+            'age' => $this->age,
+        ];
+
+        return json_encode($data);
     }
 }

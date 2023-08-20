@@ -15,7 +15,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 COPY . .
 
 RUN composer install
-RUN composer run seed
 
 VOLUME /var/www
 EXPOSE 8000

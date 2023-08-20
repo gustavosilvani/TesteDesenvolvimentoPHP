@@ -1,14 +1,26 @@
 <?php
 
 namespace src\Domain\Entities;
-class Timezone
+
+use src\Domain\BaseEntity;
+
+class Timezone extends BaseEntity
 {
-    public $offset;
-    public $description;
+    private $offset;
+    private $description;
 
     public function __construct($offset, $description)
     {
         $this->offset = $offset;
         $this->description = $description;
+    }
+    public function toJson()
+    {
+        $data = [
+            'offset' => $this->offset,
+            'description' => $this->description,
+        ];
+
+        return json_encode($data);
     }
 }
