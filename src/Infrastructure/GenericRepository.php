@@ -35,7 +35,6 @@ class GenericRepository
         $query = "INSERT INTO {$this->tableName} ({$columns}) VALUES ({$values})";
         $statement = $this->pdo->prepare($query);
 
-       // print_r($statement->queryString. "--------\n");
         $statement->execute();
         return $this->pdo->lastInsertId();
     }
