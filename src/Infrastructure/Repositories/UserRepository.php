@@ -32,4 +32,9 @@ class UserRepository extends GenericRepository implements UserRepositoryInterfac
     {
         return parent::getByColumn($column, $value);
     }
+
+    public function getAll()
+    {
+        return parent::getAll();
+    }
 }

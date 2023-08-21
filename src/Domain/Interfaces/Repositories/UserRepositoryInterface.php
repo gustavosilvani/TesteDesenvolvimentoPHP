@@ -12,4 +12,7 @@ interface UserRepositoryInterface
     public function getById($id);
 
     public function getByColumn($column, $value);
+
+    public function getAll();
+
 }

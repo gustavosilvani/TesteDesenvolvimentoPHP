@@ -16,11 +16,14 @@ class IdUser extends BaseEntity
 
     public function toJson()
     {
-        $data = [
+        return json_encode($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
             'name' => $this->name,
             'value' => $this->value,
         ];
-
-        return json_encode($data);
     }
 }

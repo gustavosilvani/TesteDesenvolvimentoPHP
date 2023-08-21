@@ -68,6 +68,31 @@ class User extends BaseEntity
         return json_encode($data);
     }
 
+    public function getGender(): string
+    {
+        return $this->gender;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getCell(): string
+    {
+        return $this->cell;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getNat(): string
+    {
+        return $this->nat;
+    }
+
     public function getNameId(): int
     {
         return $this->nameId;

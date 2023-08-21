@@ -17,11 +17,14 @@ class Street extends BaseEntity
 
     public function toJson()
     {
-        $data = [
+        return json_encode($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
             'number' => $this->number,
             'name' => $this->name,
         ];
-
-        return json_encode($data);
     }
 }

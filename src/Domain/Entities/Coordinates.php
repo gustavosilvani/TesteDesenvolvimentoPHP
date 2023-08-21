@@ -16,11 +16,14 @@ class Coordinates extends BaseEntity
     }
     public function toJson()
     {
-        $data = [
+        return json_encode($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
         ];
-
-        return json_encode($data);
     }
 }

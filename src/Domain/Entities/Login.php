@@ -26,7 +26,12 @@ class Login extends BaseEntity
     }
     public function toJson()
     {
-        $data = [
+        return json_encode($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
             'uuid' => $this->uuid,
             'username' => $this->username,
             'password' => $this->password,
@@ -35,7 +40,5 @@ class Login extends BaseEntity
             'sha1' => $this->sha1,
             'sha256' => $this->sha256,
         ];
-
-        return json_encode($data);
     }
 }

@@ -17,12 +17,15 @@ class Name extends BaseEntity
     }
     public function toJson()
     {
-        $data = [
+        return json_encode($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
             'title' => $this->title,
             'first' => $this->first,
             'last' => $this->last,
         ];
-
-        return json_encode($data);
     }
 }

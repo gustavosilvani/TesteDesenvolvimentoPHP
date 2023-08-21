@@ -2,7 +2,7 @@
 
 namespace src\Services;
 
-use src\Domain\DTO\UserDTO;
+use src\Domain\DTOs\UserDTO;
 use src\Domain\Entities\Coordinates;
 use src\Domain\Entities\Dob;
 use src\Domain\Entities\IdUser;
@@ -70,7 +70,7 @@ class UserService implements UserServiceInterface
         $this->userRepository = $userRepository;
     }
 
-    public function getUsers($count): void
+    public function getUsers($count)
     {
         $url = $this->apiUrl . "?results=" . $count;
         $response = file_get_contents($url);
@@ -90,9 +90,94 @@ class UserService implements UserServiceInterface
             }
         }
 
+        return $this->returnUsersDto();
     }
 
-    public function createUserFromData($userData): void
+    private function returnUsersDto()
+    {
+        /** @var User[] $users */
+        $users = $this->getAll();
+        $userDTOs = [];
+
+        /** @var User $user */
+        foreach ($users as $user) {
+            $name = $this->nameService->getNameById($user->getNameId());
+            $locationData = $this->locationService->getLocationById($user->getLocationId());
+            $location = new Location(
+                $locationData['streetId'],
+                $locationData['city'],
+                $locationData['state'],
+                $locationData['country'],
+                $locationData['postcode'],
+                $locationData['coordinatesId'],
+                $locationData['timezoneId']
+            );
+
+            $login = $this->loginService->getLoginById($user->getLoginId());
+            $dob = $this->dobService->getDobById($user->getDobId());
+            $registered = $this->registeredService->getRegisteredById($user->getRegisteredId());
+            $idUser = $this->idUserService->getIdUserById($user->getIdUser());
+            $picture = $this->pictureService->getPictureById($user->getPictureId());
+            $street = $this->streetService->getStreetById($location->getStreetId());
+            $timezone = $this->timezoneService->getTimezoneById($location->getTimeZoneId());
+            $coordinates = $this->coordinatesService->getCoordinatesById($location->getCoordinatesId());
+
+            $userDTO = new UserDTO(
+                $user->getGender(),
+                $user->getEmail(),
+                $user->getPhone(),
+                $user->getCell(),
+                $user->getNat()
+            );
+            $userDTO->setCoordinates($coordinates);
+            $userDTO->setName($name);
+            $userDTO->setLocation($locationData);
+            $userDTO->setLogin($login);
+            $userDTO->setDob($dob);
+            $userDTO->setRegistered($registered);
+            $userDTO->setUserId($idUser);
+            $userDTO->setPicture($picture);
+            $userDTO->setStreet($street);
+            $userDTO->setTimezone($timezone);
+            $userDTOs[] = $userDTO;
+        }
+
+        $jsonData = [];
+        foreach ($userDTOs as $userDTO) {
+            $jsonData[] = $userDTO->toJson();
+        }
+        return $jsonData;
+    }
+
+    private function getAll(): array
+    {
+        $data = $this->userRepository->getAll();
+
+
+        $users = [];
+        foreach ($data as $userData) {
+            $user = new User(
+                $userData['gender'],
+                $userData['nameId'],
+                $userData['locationId'],
+                $userData['email'],
+                $userData['loginId'],
+                $userData['dobId'],
+                $userData['registeredId'],
+                $userData['phone'],
+                $userData['cell'],
+                $userData['iduserId'],
+                $userData['pictureId'],
+                $userData['nat']
+            );
+
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
+    private function createUserFromData($userData): void
     {
         $name = new Name(
             $userData['name']['title'],
@@ -178,7 +263,7 @@ class UserService implements UserServiceInterface
         $this->userRepository->save($userDTO);
     }
 
-    public function updateUserFromData($userData, User $user): void
+    private function updateUserFromData($userData, User $user): void
     {
         $name = new Name(
             $userData['name']['title'],

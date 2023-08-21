@@ -18,13 +18,15 @@ class Picture extends BaseEntity
     }
     public function toJson()
     {
-        $data = [
+        return json_encode($this->toArray());
+    }
+
+    public function toArray(): array
+    {
+        return [
             'large' => $this->large,
             'medium' => $this->medium,
             'thumbnail' => $this->thumbnail,
-            'userId' => $this->userId,
         ];
-
-        return json_encode($data);
     }
 }

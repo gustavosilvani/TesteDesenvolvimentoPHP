@@ -15,14 +15,15 @@ class Location extends BaseEntity
     private int $timezoneId;
 
     public function __construct(
-        string $streetId,
+        int    $streetId,
         string $city,
         string $state,
         string $country,
         string $postcode,
-        int $coordinatesId,
-        int $timezoneId
-    ) {
+        int    $coordinatesId,
+        int    $timezoneId
+    )
+    {
         $this->streetId = $streetId;
         $this->city = $city;
         $this->state = $state;
@@ -31,6 +32,22 @@ class Location extends BaseEntity
         $this->coordinatesId = $coordinatesId;
         $this->timezoneId = $timezoneId;
     }
+
+    public function getStreetId(): int
+    {
+        return $this->streetId;
+    }
+
+    public function getCoordinatesId(): int
+    {
+        return $this->coordinatesId;
+    }
+
+    public function getTimezoneId(): int
+    {
+        return $this->timezoneId;
+    }
+
     public function toJson()
     {
         $data = [
@@ -45,4 +62,17 @@ class Location extends BaseEntity
 
         return json_encode($data);
     }
+
+    public function toArray()
+    {
+        $data = [
+            'city' => $this->city,
+            'state' => $this->state,
+            'country' => $this->country,
+            'postcode' => $this->postcode,
+        ];
+
+        return $data;
+    }
+
 }

@@ -71,10 +71,9 @@ class GenericRepository
 
     protected function getById($id)
     {
-        $query = "SELECT * FROM {$this->tableName} WHERE id = :id";
+        $query = "SELECT * FROM {$this->tableName} WHERE id = ".$id;
 
         $statement = $this->pdo->prepare($query);
-        $statement->bindValue(':id', $id);
         $statement->execute();
 
         return $statement->fetch();
@@ -89,5 +88,15 @@ class GenericRepository
         $statement->execute();
 
         return $statement->fetch();
+    }
+
+    public function getAll()
+    {
+        $query = "SELECT * FROM {$this->tableName}";
+
+        $statement = $this->pdo->prepare($query);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 }
